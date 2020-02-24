@@ -25,24 +25,35 @@ create table jurusan(
 
 create table dosen(
     id_dosen varchar(30) primary key,
-    nama varchar(30)
+    nama_dosen varchar(30)
 );
- insert into dosen(id_dosen,nama) values ('DS001','rubi');
- insert into dosen(id_dosen,nama) values ('DS002','Krina');
+ insert into dosen(id_dosen,nama_dosen) values ('DS001','rubi');
+ insert into dosen(id_dosen,nama_dosen) values ('DS002','Krina');
 
 
 create table matakuliah(
     id_matakuliah varchar (30) primary key,
-    nama varchar (40)
+    nama varchar (40),
+    sks integer
 );
- insert into matakuliah(id_matakuliah,nama) values ('MK001','HTML');
- insert into matakuliah(id_matakuliah,nama) values ('MK002','PHP');
- insert into matakuliah(id_matakuliah,nama) values ('MK003','C++');
- insert into matakuliah(id_matakuliah,nama) values ('MK004','javascript');
- insert into matakuliah(id_matakuliah,nama) values ('MK005','Phyton');
+ insert into matakuliah(id_matakuliah,nama) values ('MK001','HTML',3);
+ insert into matakuliah(id_matakuliah,nama) values ('MK002','PHP',3);
+ insert into matakuliah(id_matakuliah,nama) values ('MK003','C++',3);
+ insert into matakuliah(id_matakuliah,nama) values ('MK004','javascript',2);
+ insert into matakuliah(id_matakuliah,nama) values ('MK005','Phyton',3);
+
+ -- menambah value sks 
+
+UPDATE matakuliah SET sks = 3 WHERE id_matakuliah ="MK001";
+UPDATE matakuliah SET sks = 3 WHERE id_matakuliah ="MK002";
+UPDATE matakuliah SET sks = 3 WHERE id_matakuliah ="MK003";
+UPDATE matakuliah SET sks = 2 WHERE id_matakuliah ="MK004";
+UPDATE matakuliah SET sks = 3 WHERE Id_matakuliah ="MK005";
+UPDATE matakuliah SET sks = 3 WHERE Id_matakuliah ="MK006";
 
 
-create table take(
+
+create table kontrak (
     id varchar (30) primary key,
     nilai integer,
     id_dosen varchar (30),
@@ -52,24 +63,26 @@ create table take(
     foreign key (id_matakuliah) references matakuliah (id_matakuliah),
     foreign key (id_nim) references mahasiswa (id_nim)
 );
- insert into take(id,nilai,id_dosen,id_matakuliah,id_nim) values ('N001',9,'DS002','MK003','0001');
- insert into take(id,nilai,id_dosen,id_matakuliah,id_nim) values ('N002',8,'DS001','MK004','0002');
- insert into take(id,nilai,id_dosen,id_matakuliah,id_nim) values ('N003',9,'DS002','MK002','0003');
- insert into take(id,nilai,id_dosen,id_matakuliah,id_nim) values ('N004',9,'DS001','MK001','0004');
+ insert into kontrak (id,nilai,id_dosen,id_matakuliah,id_nim) values ('N001',9,'DS002','MK003','M001');
+ insert into kontrak (id,nilai,id_dosen,id_matakuliah,id_nim) values ('N002',8,'DS001','MK004','M002');
+ insert into kontrak (id,nilai,id_dosen,id_matakuliah,id_nim) values ('N003',9,'DS002','MK002','M003');
+ insert into kontrak (id,nilai,id_dosen,id_matakuliah,id_nim) values ('N004',9,'DS001','MK001','M004');
+ insert into kontrak (id,nilai,id_dosen,id_matakuliah,id_nim) values ('N005',8,'DS001','MK004','M001');
+ insert into kontrak (id,nilai,id_dosen,id_matakuliah,id_nim) values ('N006',9,'DS002','MK002','M001');
+ insert into kontrak (id,nilai,id_dosen,id_matakuliah,id_nim) values ('N007',9,'DS001','MK001','M001');
+ insert into kontrak (id,nilai,id_dosen,id_matakuliah,id_nim) values ('N008',9,'DS001','MK006','M001');
+ 
+ --  update nilai mahasiswa
+UPDATE kontrak SET nilai = 'A' WHERE ID ="N001";
+UPDATE kontrak SET nilai = 'B' WHERE ID ="N002";
+UPDATE kontrak SET nilai = 'A' WHERE ID ="N003";
+UPDATE kontrak SET nilai = 'C' WHERE ID ="N004";
+UPDATE kontrak SET nilai = 'D' WHERE ID ="N005";
+UPDATE kontrak SET nilai = 'B' WHERE ID ="N006";
+UPDATE kontrak SET nilai = 'A' WHERE ID ="N007";
+UPDATE kontrak SET nilai = 'A' WHERE ID ="N008";
 
-CREATE TABLE login(
-    id              INTEGER,         
-    username        varchar(10),    
-    password        varchar(20),    
-    user_role        varchar(20),   
-    PRIMARY KEY (id)           
-);
 
- insert into login(id,username,password,user_role) values ('00001','Eko','M001','Admin');
- insert into login(id,username,password,user_role) values ('00002','Yasa','M002','Admin');
- insert into login(id,username,password,user_role) values ('00003','Romi','M003','Admin');
- insert into login(id,username,password,user_role) values ('00004','Asep','M004','Admin');
- insert into login(id,username,password,user_role) values ('00005','Rajan','M005','Admin');
 -- menampilkan table nama jurusan
 SELECT 
    id_nim,
@@ -95,11 +108,7 @@ WHERE
 -- menambah column baru 
 ALTER TABLE MAHASISWA ADD UMUR INTEGER;
  
---  update nilai mahasiswa
-UPDATE take SET nilai = 'A' WHERE ID ="N001";
-UPDATE take SET nilai = 'B' WHERE ID ="N002";
-UPDATE take SET nilai = 'A' WHERE ID ="N003";
-UPDATE take SET nilai = 'C' WHERE ID ="N004";
+
 
 -- menampilkan nilai di atas B
 SELECT 
@@ -111,9 +120,49 @@ SELECT
 FROM
    take
 WHERE
-   nilai >= 'B'
- insert into login(id,username,password,user_role) values ('00001','Eko','M001','Admin');
- insert into login(id,username,password,user_role) values ('00002','Yasa','M002','Admin');
- insert into login(id,username,password,user_role) values ('00003','Romi','M003','Admin');
- insert into login(id,username,password,user_role) values ('00004','Asep','M004','Admin');
- insert into login(id,username,password,user_role) values ('00005','Rajan','M005','Admin');
+   nilai <= 'B'
+
+
+
+-- menggabungkan table kontrak, matakuliah, mahasiswa & mencari mahasiswa yang memiliki lebih dari 10sks
+SELECT id, nilai, mahasiswa.nama,matakuliah.nama, SUM(sks)
+FROM kontrak 
+INNER JOIN mahasiswa ON kontrak.id_nim = mahasiswa.id_nim
+JOIN matakuliah ON kontrak.id_matakuliah = matakuliah.id_matakuliah
+GROUP BY mahasiswa.nama 
+having sum(sks) > 10;
+
+-- mencari mahasiswa yang mengambil data mining
+SELECT kontrak.id, kontrak.nilai, mahasiswa.nama,matakuliah.nama
+FROM kontrak 
+JOIN mahasiswa ON kontrak.id_nim = mahasiswa.id_nim
+JOIN matakuliah ON kontrak.id_matakuliah = matakuliah.id_matakuliah
+WHERE matakuliah.nama = 'data mining';
+
+-- menampilkan jumlah mahasiswa pada setiap dosen
+SELECT kontrak.id_dosen,dosen.nama,count (mahasiswa.nama) total_mahasiswa
+FROM mahasiswa
+INNER JOIN kontrak ON mahasiswa.id_nim = kontrak.id_nim
+JOIN dosen ON kontrak.id_dosen = dosen.id_dosen
+GROUP BY dosen.id_dosen
+
+-- mengurutkan umur dari yang terbawah 
+SELECT * FROM mahasiswa
+ORDER BY umur asc;
+
+-- menampilkan seluruh tabel
+SELECT  mahasiswa.nama, umur, alamat, nilai, nama_dosen, matakuliah.nama, namajurusan
+FROM mahasiswa 
+JOIN jurusan ON mahasiswa.jurusan = jurusan.id_jurusan
+JOIN kontrak ON mahasiswa.id_nim = kontrak.id_nim
+JOIN matakuliah ON matakuliah.id_matakuliah = kontrak.id_matakuliah
+JOIN dosen ON dosen.id_dosen = kontrak.id_dosen
+
+-- menampilkan nilai dibawah C
+SELECT  mahasiswa.nama, umur, alamat, nilai, nama_dosen, matakuliah.nama, namajurusan
+FROM mahasiswa 
+JOIN jurusan ON mahasiswa.jurusan = jurusan.id_jurusan
+JOIN kontrak ON mahasiswa.id_nim = kontrak.id_nim
+JOIN matakuliah ON matakuliah.id_matakuliah = kontrak.id_matakuliah
+JOIN dosen ON dosen.id_dosen = kontrak.id_dosen
+WHERE kontrak.nilai > 'C';
