@@ -1,6 +1,9 @@
-let db = new sqlite3.Database('./db/university.db', (err) => {
-    if (err) {
-      console.error(err.message);
-    }
-    console.log('Connected to the chinook database.');
-  });
+const sqlite3 = require('sqlite3').verbose();
+const dbFile = __dirname + "/db/university.db";
+
+let db = new sqlite3.Database(dbFile, sqlite3.OPEN_READWRITE, (err) => {
+    if(err) throw err;
+    console.log("Koneksi ke database berhasil!");
+});
+
+module.exports = db;
